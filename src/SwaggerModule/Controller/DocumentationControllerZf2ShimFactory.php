@@ -32,6 +32,11 @@ class DocumentationControllerZf2ShimFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
+        // zf2 fallback, get real service locator
+        if (get_class($serviceLocator) === 'Zend\Mvc\Controller\ControllerManager') {
+            $serviceLocator = $serviceLocator->getServiceLocator();
+        }
+
         $controller = new DocumentationController();
         /** @var $swagger \Swagger\Annotations\Swagger */
         $swagger = $serviceLocator->get('Swagger\Annotations\Swagger');
